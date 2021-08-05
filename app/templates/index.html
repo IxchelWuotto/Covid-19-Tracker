@@ -36,7 +36,7 @@
     </header>
     <!-- End Navigation or Navbar -->
     <!-- Main content -->
-    <div class="container-fluid" style="height: 90vh">
+    <div class="container-fluid" style="height: 60vh">
         <div class="row">
             <div class=" col-2 column side" style="background-color:#aaa;">Column</div>
             <div class="col-8 column middle" id="map">Column</div>
@@ -57,7 +57,10 @@
         mapboxgl.accessToken = 'pk.eyJ1IjoibGlzYWJlbGxlIiwiYSI6ImNrcnd0NTdvbDBlMDYyb21zbHkwcDB5NnIifQ.590GJRVmF7WgjqHz6yvyCw';
         var map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/lisabelle/ckrwuia2c01kh18oazdh2dqgi'
+            style: 'mapbox://styles/lisabelle/ckrwuia2c01kh18oazdh2dqgi',
+            center: [0, 40],
+            zoom: 1,
+            attributionControl: false
         });
     </script>
     <!-- End JavaScript for Mapbox -->

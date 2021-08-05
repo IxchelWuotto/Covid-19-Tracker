@@ -89,16 +89,6 @@ body {
   float: left;
 }
 
-/* Left and right column
-.column.side {
-  width: 25%;
-}*/
-
-/* Middle column */
-.column.middle {
-
-}
-
 /* Clear floats after the columns */
 .row:after {
   content: "";

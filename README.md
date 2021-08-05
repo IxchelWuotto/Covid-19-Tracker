@@ -4,8 +4,8 @@ Minimal Flask template to get started on your blog application for MLH Fellowshi
 
 ## Authors
 
-* Leeia Isabelle ([leeiaisabelle](https://github.com/Leeiaisabelle))</br>
-* Marcela Ixchel Gomez Wuotto ([IxchelWuotto](https://github.com/IxchelWuotto))</br>
+* Leeia Isabelle ([leeiaisabelle](https://github.com/Leeiaisabelle))
+* Marcela Ixchel Gomez Wuotto ([IxchelWuotto](https://github.com/IxchelWuotto))
 * Nandhini Swaminathan ([nandhiniswaminathan](https://github.com/nandhiniswaminathan))
 
 ## Getting Started

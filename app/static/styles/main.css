@@ -50,7 +50,7 @@ body {
 }
 
 #map {
-    height: 100vh;
+    height: 75vh;
 }
 
 
@@ -59,6 +59,16 @@ body {
 .column {
   float: left;
   padding: 10px;
+}
+
+/* Left and right column */
+.column.side {
+
+}
+
+/* Middle column */
+.column.middle {
+
 }
 
 /* Clear floats after the columns */
@@ -87,6 +97,16 @@ body {
 /* Create three unequal columns that floats next to each other */
 .column {
   float: left;
+}
+
+/* Left and right column
+.column.side {
+  width: 25%;
+}*/
+
+/* Middle column */
+.column.middle {
+
 }
 
 /* Clear floats after the columns */

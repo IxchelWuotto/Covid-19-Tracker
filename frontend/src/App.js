@@ -8,27 +8,27 @@ import { sortData } from "./util";
 import LineGraph from "./LineGraph";
 
 function App() {
-  // STATE = How to write a variable in REACT
 
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
   const [tableData, setTableData] = useState([])
-  // https://disease.sh/v3/covid-19/countries
-  // USEEFFECT = Runs a piece of code based on a given condition
 
   useEffect(() => {
-    fetch("https://corona.lmao.ninja/v2/all?yesterday")
+    fetch("https://corona.lmao.ninja/v2/all?yesterday") //here goes the csv instead of api
       .then(response => response.json())
       .then(data => {
         setCountryInfo(data);
       });
+    /*fetch("http://localhost:5000/getdata")
+       .then(response => response.json())
+       .then(data => {
+         setCountryInfo(data);
+       });*/
   }, [])
 
 
   useEffect(() => {
-    //The code inside here will run once when the component loads and not again
-    //async -> send a request, wait for it
     const getCountriesData = async () => {
       await fetch("https://corona.lmao.ninja/v2/countries?yesterday=&sort=")
         .then((response) => response.json())

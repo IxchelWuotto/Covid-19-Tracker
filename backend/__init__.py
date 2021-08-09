@@ -17,6 +17,10 @@ def index():
 def health():
    return "Works"
 
+##@app.route('/getdata')
+##def getdata():
+  ## return "Works"
+
 
 @app.route('/register', methods=('GET', 'POST'))
 def register():

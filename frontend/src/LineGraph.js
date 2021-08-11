@@ -62,7 +62,7 @@ const buildChartData = (data, casesType) => {
     return chartData;
 };
 
-function LineGraph({ casesType = "cases" }) {
+function LineGraph({ casesType, ...props }) {
     const [data, setData] = useState({});
 
     //https://corona.lmao.ninja/v2/historical/all?=120

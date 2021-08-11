@@ -4,10 +4,8 @@ import InfoBox from "./InfoBox";
 import Map from "./Map";
 import "./App.css";
 import Table from "./Table";
-import { sortData } from "./util";
 import LineGraph from "./LineGraph";
 import { sortData, prettyPrintStat } from "./util";
-import numeral from "numeral";
 import "leaflet/dist/leaflet.css";
 
 function App() {
@@ -20,6 +18,7 @@ function App() {
   const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
   const [mapZoom, setMapZoom] = useState(3);
   const [mapCountries, setMapCountries] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     fetch("https://corona.lmao.ninja/v2/all?yesterday") //here goes the csv instead of api
@@ -47,7 +46,7 @@ function App() {
           const sortedData = sortData(data);
           setTableData(sortedData);
           setCountries(countries);
-          setMapCounries(data);
+          setMapCountries(data);
         });
     };
 
@@ -63,7 +62,7 @@ function App() {
     setCountryInfo(countryCode);
 
     const url =
-      countryCode == "wordlwide"
+      countryCode === "wordlwide"
         ? "https://corona.lmao.ninja/v2/countries?yesterday=&sort="
         : `https://corona.lmao.ninja/v2/countries/:query?yesterday&strict&query/${countryCode}`;
 
@@ -76,7 +75,7 @@ function App() {
         setMapZoom(4);
         setInputCountry(countryCode);
         setLoading(false);
-        countrtCode === "worldwide"
+        countryCode === "worldwide"
           ? setMapCenter([34.80746, -40.4796])
           : setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
       });

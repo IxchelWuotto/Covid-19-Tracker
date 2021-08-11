@@ -11,11 +11,11 @@ import "leaflet/dist/leaflet.css";
 function App() {
 
   const [countries, setCountries] = useState([]);
-  const [country, setInputCountry] = useState("worldwide");
+  const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
   const [tableData, setTableData] = useState([]);
   const [casesType, setCasesType] = useState("cases");
-  const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
+  const [mapCenter, setMapCenter] = useState([34.80746, -40.4796]);
   const [mapZoom, setMapZoom] = useState(3);
   const [mapCountries, setMapCountries] = useState([]);
   const [isLoading, setLoading] = useState(false);
@@ -59,7 +59,7 @@ function App() {
     const countryCode = event.target.value;
     //the dropdown stays in the name you click on
 
-    setCountryInfo(countryCode);
+    setCountry(countryCode);
 
     const url =
       countryCode === "wordlwide"
@@ -70,15 +70,15 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         //All of the data from the country respone
+        setCountry(countryCode);
         setCountryInfo(data);
-        setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
-        setMapZoom(4);
-        setInputCountry(countryCode);
         setLoading(false);
         countryCode === "worldwide"
           ? setMapCenter([34.80746, -40.4796])
           : setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+        setMapZoom(4);
       });
+
     console.log(countryInfo);
   };
 

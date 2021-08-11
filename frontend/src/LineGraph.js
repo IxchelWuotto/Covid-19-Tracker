@@ -86,12 +86,10 @@ function LineGraph({ casesType = "cases" }) {
     }, [casesType]);
 
     return (
-        <div>
-            <h1>Im a graph</h1>
+        <div className={props.className}>
             {data?.length > 0 && (
                 //data & data
                 <Line
-                    options={options}
                     data={{
                         datasets: [
                             {
@@ -101,6 +99,7 @@ function LineGraph({ casesType = "cases" }) {
                             },
                         ],
                     }}
+                    options={options}
                 />
             )}
         </div>

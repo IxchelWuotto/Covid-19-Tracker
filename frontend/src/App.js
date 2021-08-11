@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { MenuItem, FormControl, Select, Card, CardContent } from "@material-ui/core";
+import { MenuItem, FormControl, Select, Card, CardContent, } from "@material-ui/core";
 import InfoBox from "./InfoBox";
 import Map from "./Map";
 import "./App.css";
 import Table from "./Table";
 import { sortData } from "./util";
 import LineGraph from "./LineGraph";
+import { sortData, prettyPrintStat } from "./util";
+import numeral from "numeral";
+import "leaflet/dist/leaflet.css";
 
 function App() {
 
   const [countries, setCountries] = useState([]);
-  const [country, setCountry] = useState("worldwide");
+  const [country, setInputCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
-  const [tableData, setTableData] = useState([])
+  const [tableData, setTableData] = useState([]);
+  const [casesType, setCasesType] = useState("cases");
+  const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
+  const [mapZoom, setMapZoom] = useState(3);
+  const [mapCountries, setMapCountries] = useState([]);
 
   useEffect(() => {
     fetch("https://corona.lmao.ninja/v2/all?yesterday") //here goes the csv instead of api
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setCountryInfo(data);
       });
     /*fetch("http://localhost:5000/getdata")
@@ -37,20 +44,23 @@ function App() {
             name: country.country, // United States, United Kingdon, France
             value: country.countryInfo.iso2 //UK,USA,FR
           }));
-
           const sortedData = sortData(data);
           setTableData(sortedData);
           setCountries(countries);
+          setMapCounries(data);
         });
     };
 
     getCountriesData();
   }, []);
 
+
   const onCountryChange = async (event) => {
+    setLoading(true);
     const countryCode = event.target.value;
     //the dropdown stays in the name you click on
-    setCountry(countryCode);
+
+    setCountryInfo(countryCode);
 
     const url =
       countryCode == "wordlwide"
@@ -58,14 +68,20 @@ function App() {
         : `https://corona.lmao.ninja/v2/countries/:query?yesterday&strict&query/${countryCode}`;
 
     await fetch(url)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         //All of the data from the country respone
         setCountryInfo(data);
-      })
+        setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+        setMapZoom(4);
+        setInputCountry(countryCode);
+        setLoading(false);
+        countrtCode === "worldwide"
+          ? setMapCenter([34.80746, -40.4796])
+          : setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+      });
+    console.log(countryInfo);
   };
-
-  console.log('COUNTRY INFO >>>', countryInfo)
 
   return (
     <div className="app">
@@ -77,34 +93,42 @@ function App() {
               {/* Loopn through all the countries and drop down list of the options */}
               <MenuItem value="worldwide">Worldwide</MenuItem>
               {countries &&
-                countries.map(country => (
+                countries.map((country) => (
                   <MenuItem value={country.value}>{country.name}</MenuItem>
                 ))}
-
             </Select>
           </FormControl>
         </div>
-
         <div className="app__stats">
-          <InfoBox title="Coronavirus Cases" cases={countryInfo.todayCases} total={countryInfo.cases} />
+          <InfoBox isRed active={casesType === "cases"} className="infoBox__cases" onClick={(e) => setCasesType("cases")} title="Coronavirus Cases"
+            total={prettyPrintStat(countryInfo.cases)} cases={prettyPrintStat(countryInfo.todayCases)} isloading={isLoading} />
 
-          <InfoBox title="Recovered" cases={countryInfo.todayRecovered} total={countryInfo.recovered} />
+          <InfoBox active={casesType === "recovered"} className="infoBox__recovered" onClick={(e) => setCasesType("recovered")} title="Recovered"
+            total={prettyPrintStat(countryInfo.recovered)} cases={prettyPrintStat(countryInfo.todayRecovered)} isloading={isLoading} />
 
-          <InfoBox title="Deaths" cases={countryInfo.todayDeaths} total={countryInfo.deaths} />
+          <InfoBox isGrey active={casesType === "deaths"} className="infoBox__deaths" onClick={(e) => setCasesType("deaths")} title="Deaths"
+            total={prettyPrintStat(countryInfo.deaths)} cases={prettyPrintStat(countryInfo.todayDeaths)} isloading={isLoading} />
         </div>
 
-        <Map />
+        <Map
+          countries={mapCountries}
+          casesType={casesType}
+          center={mapCenter}
+          zoom={mapZoom}
+        />
       </div>
       <Card className="app__right">
         <CardContent>
-          <h3>Live Cases by Country</h3>
-          <Table countries={tableData} />
-          <h3>Worldwide new cases</h3>
-          <LineGraph />
+          <div className="app_information">
+            <h3>Live Cases by Country</h3>
+            <Table countries={tableData} />
+            <h3 className="app__graphTitle">WorldWide new {casesType}</h3>
+            <LineGraph casesType={casesType} />
+          </div>
         </CardContent>
       </Card>
-    </div>
+    </div >
   );
-}
+};
 
 export default App;

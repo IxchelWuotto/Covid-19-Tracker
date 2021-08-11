@@ -1,5 +1,8 @@
+@import url("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+
 .infoBox {
     flex: 1;
+    cursor: 15px;
   }
   
 .infoBox:not(:last-child) {
@@ -19,3 +22,24 @@
     font-size: 0.8rem !important;
     margin-top: 15px !important;
   }
+
+  .infoBox--selected {
+    border-top: 10px solid greenyellow;
+  }
+  
+  .infoBox--red {
+    border-color: red;
+  }
+  
+  .infoBox__cases--green {
+    color: lightgreen;
+  }
+  
+  .infoBox--grey {
+    border-color: grey;
+  }
+  
+  .infoBox__cases--grey {
+    color: grey;
+  }
+  
